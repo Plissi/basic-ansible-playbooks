@@ -1,0 +1,7 @@
+---
+- name: Run a script on remote machine
+  hosts: "{{ host }}"
+  tasks:
+  - name: Running script with a playbook
+    ansible.builtin.script: " {{ script }}"
+...

@@ -1,0 +1,21 @@
+---
+  - name: Starting an oracle db
+    hosts: windowsservers
+    tasks: 
+    - name: Starting oracle on windows
+      ansible.windows.win_service:
+        name: OracleServiceORCL #OracleServiceORCL is the name of the oracle service
+        state: started
+        
+  - name: Starting an oracle db
+    hosts: linuxservers
+    tasks: 
+    - name: Connecting to oracle on linux
+      shell: sqlplus / as sysdba
+      environment:
+        ORACLE_HOME: "{{oracle_home_path}}"
+        LD_LIBRARY_PATH: "{{ld_library_path}}"
+        PATH: "{{bin_path}}"
+    - name: Starting oracle on linux
+      shell: STARTUP
+...

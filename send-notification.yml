@@ -1,0 +1,19 @@
+- name: Add email notification
+  hosts: remoteserver
+  tasks:
+    - name: Add email notification
+      notification_template:
+        name: email notification
+        notification_type: email
+        notification_configuration:
+          username: user
+          password: s3cr3t
+          sender: controller@example.com
+          recipients:
+            - user1@example.com
+          host: smtp.example.com
+          port: 25
+          use_tls: no
+          use_ssl: no
+        state: present
+        controller_config_file: "~/tower_cli.cfg"

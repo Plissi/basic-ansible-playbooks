@@ -1,0 +1,12 @@
+---
+- name: Rsync push from "{{ src }}" to "{{ dest }}"
+  hosts: "{{ dest }}" 
+  tasks:
+    - name: Copy the file from delagate to destination using Method Push
+      tags: sync-push
+      ansible.posix.synchronize:
+        src: "{{ src_file }}"
+        dest: "{{ dest_file }}"
+        mode: push
+      delegate_to: "{{ src }}"
+...

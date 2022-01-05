@@ -1,0 +1,9 @@
+---
+- name: Copy files from Remote to Local host
+  hosts: "{{ host }}"
+  tasks:
+  - name: Download file on control node
+    ansible.builtin.fetch:
+      src: "{{ src_file }}"
+      dest: "{{ dest_folder }}"
+...

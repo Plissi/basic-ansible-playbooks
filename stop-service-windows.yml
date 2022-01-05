@@ -1,0 +1,9 @@
+---
+- name: Stop a service on a Linux Remote server
+  hosts: "{{ host }}"
+  tasks:
+  - name: Stop Service
+    ansible.windows.win_service:
+      name: "{{ service }}"
+      state: stopped
+...

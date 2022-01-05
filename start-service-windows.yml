@@ -1,0 +1,9 @@
+---
+- name: Start a service on a Linux Remote server
+  hosts: "{{ host }}"
+  tasks:
+  - name: Start Service
+    ansible.windows.win_service:
+      name: "{{ service }}"
+      state: restarted
+...

@@ -1,0 +1,10 @@
+---
+- name: Start a service on a Linux Remote server
+  hosts: "{{ host }}"
+  become: yes
+  tasks:
+  - name: Start Service
+    ansible.builtin.service:
+      name: "{{ service }}"
+      state: started
+...

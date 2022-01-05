@@ -1,0 +1,39 @@
+--- 
+- name: Compression of an xml files directory 
+  hosts: remoteserver
+  tasks: 
+  - name: Get timestamp from the system
+    shell: "date +%d%m%Y"
+    register: tstamp
+
+  - name: Compress
+    community.general.archive:
+      path: /e_bicec/xml
+      dest: "/production/echange_xml_{{ tstamp }}.tar.gz"
+      format: gz
+
+- name: Copy archive on another serveur
+  ansible.builtin.import_playbook: rsync-push.yml
+  vars:
+    dest: destination
+    src: remoteserver
+    src_file: "/production/echange_xml_{{ tstamp }}.tar.gz"
+    dest_file: "/dataexp/echange_xml_{{ tstamp }}.tar.gz"
+
+- name: Delete old xml files  
+  hosts: remoteserver
+  tasks: 
+  - name : Find xml files older than 20 minutes
+    ansible.builtin.find:
+      paths: /e_bicec/xml
+      patterns: '*xml'
+      age: 20m
+      age_stamp: mtime
+    register: output #enregistre le résultat de find dans la variable output
+
+  - name: Delete the files matching
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: absent
+    with_items: "{{ output.files }}"
+...
